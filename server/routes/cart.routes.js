@@ -5,5 +5,9 @@ module.exports = (app) => {
   app.post("/api/cart/items/add", CartController.CreateNewItem);
   app.get("/api/cart/items/:userId", CartController.findOneItem);
   app.put("/api/cart/items/:id/update", CartController.updateOneItem);
-  app.delete("/api/cart/items/:id/delete", CartController.deleteOneItem);
+  app.put(
+    "/api/cart/items/removeOneCartItem",
+    CartController.removeOneCartItem
+  );
+  // app.delete("/api/cart/items/:id/delete", CartController.deleteOneItem);
 };

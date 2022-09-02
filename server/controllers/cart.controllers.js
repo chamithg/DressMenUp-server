@@ -127,8 +127,33 @@ module.exports.updateOneItem = (req, res) => {
       res.json(err);
     });
 };
+//!!!--------------------------------------------------------------------------
+module.exports.removeOneCartItem = (req, res) => {
+  Cart.updateOne(
+    { user: req.body.user },
+    {
+      $pull: {
+        cartItems: {
+          item: req.body.itemId,
+        },
+      },
+    }
+  );
+  console.log(req);
+};
 
-module.exports.deleteOneItem = (req, res) => {
+module.exports.cartItemAdd = (req, res) => {
+  Cart.find()
+    .findOneAndRemove({ _id: req.params.id })
+    .then((deletedItem) => {
+      res.json({ results: deletedItem });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+module.exports.cartItemMinus = (req, res) => {
   Cart.find()
     .findOneAndRemove({ _id: req.params.id })
     .then((deletedItem) => {
