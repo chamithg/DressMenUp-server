@@ -9,5 +9,6 @@ module.exports = (app) => {
     "/api/cart/items/removeOneCartItem",
     CartController.removeOneCartItem
   );
+  app.put("/api/cart/items/changeCountByOne", CartController.changeCountByOne);
   // app.delete("/api/cart/items/:id/delete", CartController.deleteOneItem);
 };

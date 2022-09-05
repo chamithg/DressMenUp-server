@@ -127,10 +127,12 @@ module.exports.updateOneItem = (req, res) => {
       res.json(err);
     });
 };
-//!!!--------------------------------------------------------------------------
+//!!! REMOVE SINGLE ITEM FORM CART
 module.exports.removeOneCartItem = (req, res) => {
   Cart.updateOne(
-    { user: req.body.user },
+    {
+      user: req.body.user,
+    },
     {
       $pull: {
         cartItems: {
@@ -138,10 +140,36 @@ module.exports.removeOneCartItem = (req, res) => {
         },
       },
     }
-  );
-  console.log(req);
+  )
+    .then((deletedItem) => {
+      res.json({ results: deletedItem });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 };
 
+//!!!INCREASE/DECREASE CART ITEM QUANTITY BY 1
+module.exports.changeCountByOne = (req, res) => {
+  Cart.findOneAndUpdate(
+    { user: req.body.userId },
+    {
+      $set: {
+        "cartItems.$[i].quantity": req.body.quantity,
+        "cartItems.$[i].price": req.body.price,
+      },
+    },
+    { arrayFilters: [{ "i._id": req.body.itemId }] }
+  )
+    .then((updatedItem) => {
+      res.json({ results: updatedItem });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+//!!!--------------------------------------------------------------------------
 module.exports.cartItemAdd = (req, res) => {
   Cart.find()
     .findOneAndRemove({ _id: req.params.id })

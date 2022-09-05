@@ -17,5 +17,6 @@ require("./server/config/mongoose.config");
 require("./server/routes/user.routes")(app);
 require("./server/routes/item.routes")(app);
 require("./server/routes/cart.routes")(app);
+require("./server/routes/rating.routes")(app);
 
 app.listen(port, () => console.log(`listening on port:${port}`));

@@ -34,11 +34,6 @@ const ItemSchema = new mongoose.Schema(
       enum: ["Small", "Medium", "large", "Xlarge"],
       default: "medium",
     },
-    count: {
-      type: Number,
-      default: 5,
-    },
-
     isFeatured: {
       type: Boolean,
       default: false,
