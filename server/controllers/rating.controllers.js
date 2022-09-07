@@ -1,26 +1,61 @@
 const Rating = require("../models/rating.models");
 
+//?find all items
+
 module.exports.findAllItems = (req, res) => {
-  Item.find()
+  Rating.find()
     .sort({ type: 1 })
-    .then((allItems) => {
-      res.json({ results: allItems });
+    .then((allRatings) => {
+      res.json({ results: allRatings });
     })
     .catch((err) => {
       res.json(err);
     });
 };
+
+//?create a new rating
+
 module.exports.CreateNewItem = (req, res) => {
-  Item.create(req.body)
-    .then((newItem) => {
-      res.json({ results: newItem });
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+  Rating.findOne({ item: req.body.item }).exec((error, item) => {
+    if (error) return res.status(400).json({ error });
+    if (item) {
+      // which means there is already review on that item
+      Rating.findOneAndUpdate(
+        { item: req.body.item },
+        {
+          $push: {
+            reviews: req.body.review,
+            // push new review to the exsisting reviews array
+          },
+        }
+      )
+        .then((updatedItem) => {
+          res.json({ results: updatedItem });
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    } else {
+      // no any rating available,
+      newRating = {
+        item: req.body.item,
+        reviews: [req.body.review],
+      };
+      Rating.create(newRating)
+        .then((newItem) => {
+          res.json({ results: newItem });
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    }
+  });
 };
-module.exports.findOneItem = (req, res) => {
-  Item.findOne({ _id: req.params.id })
+
+//?find ratings of single item
+
+module.exports.findOne = (req, res) => {
+  Rating.findOne({ item: req.params.id })
     .then((foundItem) => {
       res.json({ results: foundItem });
     })
@@ -28,6 +63,8 @@ module.exports.findOneItem = (req, res) => {
       res.json(err);
     });
 };
+
+//? edit a review
 
 module.exports.updateOneItem = (req, res) => {
   Item.findOneAndUpdate({ _id: req.params.id }, req.body, {
@@ -41,6 +78,8 @@ module.exports.updateOneItem = (req, res) => {
       res.json(err);
     });
 };
+
+//?find delete single review
 
 module.exports.deleteOneItem = (req, res) => {
   Item.findOneAndRemove({ _id: req.params.id })

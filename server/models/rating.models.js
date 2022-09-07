@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const RateSchema = new mongoose.Schema(
   {
     item: { type: mongoose.Schema.Types.ObjectId, ref: "Item", required: true },
-    cartItems: [
+    reviews: [
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
