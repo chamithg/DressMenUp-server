@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const RateSchema = new mongoose.Schema(
   {
     item: { type: mongoose.Schema.Types.ObjectId, ref: "Item", required: true },
+    oRating: { type: Number, default: 0 },
     reviews: [
       {
         user: {

@@ -35,10 +35,30 @@ module.exports.CreateNewItem = (req, res) => {
         .catch((err) => {
           res.json(err);
         });
+      let tempTotal = 0;
+      for (let i in item.reviews) {
+        tempTotal += item.reviews[i].rating;
+      }
+      let oRate = Math.round(tempTotal / item.reviews.length);
+      Rating.findOneAndUpdate(
+        { item: req.body.item },
+        {
+          $set: {
+            oRating: oRate,
+          },
+        }
+      )
+        .then((updatedItem) => {
+          res.json({ results: updatedItem });
+        })
+        .catch((err) => {
+          res.json(err);
+        });
     } else {
       // no any rating available,
       newRating = {
         item: req.body.item,
+        oRating: req.body.review.rating,
         reviews: [req.body.review],
       };
       Rating.create(newRating)

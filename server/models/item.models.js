@@ -29,9 +29,13 @@ const ItemSchema = new mongoose.Schema(
       type: Number,
       required: [true, "clothing item price is required"],
     },
+    oldPrice: {
+      type: Number,
+      default: 0,
+    },
     size: {
       type: String,
-      enum: ["Small", "Medium", "large", "Xlarge"],
+      enum: ["small", "medium", "large", "xlarge"],
       default: "medium",
     },
     isFeatured: {

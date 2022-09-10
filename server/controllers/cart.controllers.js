@@ -63,7 +63,7 @@ module.exports.CreateNewItem = (req, res) => {
         const newCartItem = {
           item: req.body.item._id,
           cartObj: req.body.cartObj,
-          price: req.body.item.price * req.body.quantity,
+          price: (req.body.item.price * req.body.quantity).toFixed(2),
           quantity: req.body.quantity,
         };
         Cart.findByIdAndUpdate(

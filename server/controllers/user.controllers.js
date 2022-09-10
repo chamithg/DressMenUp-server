@@ -100,13 +100,17 @@ class UserController {
 
   getLoggedUser = (req, res) => {
     const decodedJwt = jwt.decode(req.cookies.usertoken, { complete: true });
-    User.findOne({ _id: decodedJwt.payload.id })
-      .then((foundUser) => {
-        res.json({ results: foundUser });
-      })
-      .catch((err) => {
-        res.json(err);
-      });
+    if (decodedJwt === null) {
+      console.log("no logged user");
+    } else {
+      User.findOne({ _id: decodedJwt.payload.id })
+        .then((foundUser) => {
+          res.json({ results: foundUser });
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    }
   };
 }
 
