@@ -31,6 +31,7 @@ class UserController {
                 httpOnly: true,
               });
               res.json({ msg: "success!", user: user });
+              console.log(user);
             })
             .catch((err) => res.json(err));
         } else {
@@ -61,7 +62,7 @@ class UserController {
     );
 
     if (!correctPassword) {
-      // password wasn't a match!
+      // password wasn't a match
       return res.json({ error: "Password is incorect" });
     }
 
