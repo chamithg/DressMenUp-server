@@ -26,7 +26,6 @@ class UserController {
                 },
                 process.env.SECRET_KEY
               );
-
               res.cookie("usertoken", userToken, process.env.SECRET_KEY, {
                 httpOnly: true,
               });
@@ -80,7 +79,7 @@ class UserController {
       .cookie("usertoken", userToken, process.env.SECRET_KEY, {
         httpOnly: true,
       })
-      .json({ msg: "success!" });
+      .json({ results: user });
   };
 
   logout = (req, res) => {

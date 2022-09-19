@@ -36,10 +36,15 @@ module.exports.CreateNewItem = (req, res) => {
           res.json(err);
         });
       let tempTotal = 0;
+
       for (let i in item.reviews) {
         tempTotal += item.reviews[i].rating;
       }
-      let oRate = Math.round(tempTotal / item.reviews.length);
+      tempTotal += parseInt(req.body.review.rating);
+      console.log(tempTotal, typeof tempTotal);
+      console.log(item.reviews.length, typeof item.reviews.length);
+      let oRate = Math.round(tempTotal / (item.reviews.length + 1));
+      console.log("orate" + oRate);
       Rating.findOneAndUpdate(
         { item: req.body.item },
         {
