@@ -36,7 +36,7 @@ const ItemSchema = new mongoose.Schema(
     size: {
       type: String,
       enum: ["small", "medium", "large", "xlarge"],
-      default: "medium",
+      default: "small",
     },
     isFeatured: {
       type: Boolean,
